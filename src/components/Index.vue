@@ -9,45 +9,28 @@
             <span class="detailsLink" @click="selectAlbum(album.id)">
               Détails de {{album.id}}
             </span>
-
-            <album-details v-bind:onClick="sampleFunction" :fruits="sampleData">
-            </album-details>
-
         </li><br/>
       </ul>
     </div>
-    <div v-show="true" id="albumDetails">
-      <!-- <div id="albumDetails"> -->
+    <div v-show="albumId > 0" id="albumDetails">
       <h2>Liste des Photos</h2>
-
         <ul>
         <li v-for="albumd in albumDetails" :key="albumd.id">
           {{albumd.title}} 
-            <img v-bind:src="albumd.thumbnailUrl" />
+              <img @click="selectPhoto(albumd.id)" v-bind:src="albumd.thumbnailUrl"  />
         </li><br/>
       </ul>
-
-
-
-
-
-
       <div id="photoDetails" v-if="photoUrl !== null">
         <img v-bind:src="photoUrl" />
-      <album-details></album-details>
       </div>
+    <album-details></album-details> 
     </div>
-    <album-details></album-details>
   </div>
 </template>
 
 <script>
-import axios from 'axios';
 import { mapState, mapActions } from 'vuex';
 import AlbumDetails from './AlbumDetails';
-
-const API_BASE_URL = 'https://jsonplaceholder.typicode.com';
-
 export default {
   name: 'index',
   components: {
@@ -66,15 +49,17 @@ export default {
     ...mapActions([
       'fetchAlbumList',
       'fetchAlbum',
-      'selectAlbum'
+      'selectAlbum',
+      'selectPhoto'
+
     ]),
     
     showAlbum(albumId) { 
-      console.log("jccdjidi")
-      return axios.get(`${API_BASE_URL}/albums/${albumId}/photos`)
-        .then(response => 
-                console.log("TEEEEEEEEEEEEST", response.data[albumId-1].thumbnailUrl));
-                albumId = response.data.a
+      // console.log("jccdjidi")
+      // return axios.get(`${API_BASE_URL}/albums/${albumId}/photos`)
+      //   .then(response => 
+      //           console.log("TEEEEEEEEEEEEST", response.data[albumId-1].thumbnailUrl));
+      //           albumId = response.data.a
     },
     sampleFunction(fruitName){
       alert("you:" + fruitName)

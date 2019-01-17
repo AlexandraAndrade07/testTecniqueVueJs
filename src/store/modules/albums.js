@@ -27,9 +27,9 @@ const mutations = {
     state.albumList = albumList;
     state.albumListLoading = false;
   },
-  [types.ALBUM_REQUEST](state) {
+  [types.ALBUM_REQUEST](state,photoUrl ) {
     state.albumLoading = true;
-    state.photoUrl = null;
+    state.photoUrl = photoUrl;
   },
   [types.ALBUM_SUCCESS](state, albumDetails) {
     state.albumDetails = albumDetails;
@@ -39,13 +39,18 @@ const mutations = {
     state.albumId = albumId;
   },
   [types.SELECT_PHOTO](state, photoId) {
-    let photoKey = 0;
-    for (let i = 1; i < state.albumDetails.length; i++) {
-      if (state.albumDetails[i].id === photoId) {
-        photoKey = i;
-      }
-    }
-    state.photoUrl = state.albumDetails[photoKey].url;
+    // let photoKey = 0;
+    // for (let i = 1; i < state.albumDetails.length; i++) {
+    //   if (state.albumDetails[i].id === photoId) {
+    //     photoKey = i;
+    //   }
+    // }
+    // for (let i = 0; i < state.albumDetails.length; i++) {
+    //   if (state.albumDetails[i].id === photoId) {
+    //     photoKey = i;
+    //   }
+    // }
+    state.photoUrl = state.albumDetails[photoId].url;
   },
 };
 
@@ -69,8 +74,10 @@ const actions = {
     commit(types.SELECT_ALBUM, albumId);
     dispatch('fetchAlbum');
   },
-  selectPhoto({ commit }, photoId) {
+
+  selectPhoto({ commit, state }, photoId) {
     commit(types.SELECT_PHOTO, photoId);
+    // dispatch('fetchPhoto');
   },
 };
 
