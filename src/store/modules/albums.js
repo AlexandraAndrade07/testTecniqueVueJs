@@ -46,13 +46,6 @@ const mutations = {
       }
     }
     state.photoUrl = state.albumDetails[photoKey].url;
-    // let photoKey = 0;
-    // for (let i = 1; i < state.albumDetails.length; i++) {
-    //   if (state.albumDetails[i].id === photoId) {
-    //     photoKey = i;
-    //   }
-    // }
-    // state.photoUrl = state.albumDetails[photoId].url;
   },
 };
 

@@ -1,38 +1,61 @@
+<template>
+  <div class="hello">
+    <h1>{{ msg }}</h1>
+    <div class="containerAlbums">
+      <div class="albumList">
+        <h2>Liste des albums</h2>
+        <br>
+        <ul>
+          <li v-for="album in albumList" :key="album.id">
+            {{album.title}}
+            <span id="detailsLink" @click="selectAlbum(album.id)">
+                Détails de {{album.id}}
+            </span>
+          </li>
+          <br>
+        </ul>
+      </div>
+      <div v-show="albumId > 0" class="albumDetails">
+        <h2>Photo details</h2>
+        <div class="photoDetails" v-if="photoUrl !== null">
+          <img class="photoDetail" v-bind:src="photoUrl">
+        </div>
+        <h2>Liste des Photos {{albumId}} </h2>
+        <album-details albumDetails="albumDetails"></album-details>
+      </div>
+    </div>
+  </div>
+</template>
+
 <script>
-import { mapState, mapActions } from 'vuex';
-import AlbumDetails from './AlbumDetails';
+import { mapState, mapActions } from "vuex";
+import AlbumDetails from "./AlbumDetails";
 export default {
-  name: 'index',
+  name: "index",
   components: {
     AlbumDetails
   },
-  data () {
+  data() {
     return {
-      msg: 'Test technique Infolegale Je veux un stage stp',
-      sampleData: ["apple", "banane"]
-    }
+      msg: "Test technique Infolegale"
+    };
   },
-  created () {
+  created() {
     this.fetchAlbumList();
   },
   methods: {
     ...mapActions([
-      'fetchAlbumList',
-      'fetchAlbum',
-      'selectAlbum',
-      'selectPhoto'
-
+      "fetchAlbumList",
+      "fetchAlbum",
+      "selectAlbum",
+      "selectPhoto"
     ]),
-    
-    showAlbum(albumId) { 
-      // console.log("jccdjidi")
-      // return axios.get(`${API_BASE_URL}/albums/${albumId}/photos`)
-      //   .then(response => 
-      //           console.log("TEEEEEEEEEEEEST", response.data[albumId-1].thumbnailUrl));
-      //           albumId = response.data.a
+
+    showAlbum(albumId) {
+      this.selectAlbum(albumId);
     },
-    sampleFunction(fruitName){
-      alert("you:" + fruitName)
+    sampleFunction(fruitName) {
+      alert("you:" + fruitName);
     }
   },
   computed: {
@@ -41,48 +64,21 @@ export default {
       albumList: state => state.albums.albumList,
       photoUrl: state => state.albums.photoUrl,
       albumId: state => state.albums.albumId,
-      albumDetails: state => state.albums.albumDetails,
-    }),
+      albumDetails: state => state.albums.albumDetails
+    })
   }
-}
+};
 </script>
-<template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-      <div class="containerAlbums">    
-          <div class="albumList">
-            <h2>Liste des albums</h2><br/>
-            <ul>
-              <li v-for="album in albumList" :key="album.id">
-                {{album.title}} 
-                  <span id="detailsLink" @click="selectAlbum(album.id)">
-                    Détails de {{album.id}}
-                  </span>
-              </li><br/>
-            </ul>
-          </div>
-          <div v-show="albumId > 0" class="albumDetails">
-            <h2>Liste des Photos</h2>
-              <ul>
-                <li v-for="albumd in albumDetails" :key="albumd.id">
-                    <img @click="selectPhoto(albumd.id)" v-bind:src="albumd.thumbnailUrl"  />
-                </li><br/>
-              </ul>
-            <div class="photoDetails" v-if="photoUrl !== null">
-              <img v-bind:src="photoUrl" />
-            </div>
-            <album-details></album-details> 
-          </div>
-      </div>  
-  </div>
-</template>
+
 <style  lang="scss" scoped>
-  
-h1, h2 {
+h1,h2 {
   font-weight: normal;
 }
 li {
   list-style: none;
+  margin: 5px;
+  border-radius: 8px;
+  font-size: 1em;
 }
 a {
   color: #42b983;
@@ -92,27 +88,30 @@ a {
   cursor: pointer;
   margin-left: 5px;
 }
-.containerAlbums{
+.containerAlbums {
   display: grid;
-  grid-template-columns: 1fr, 1fr, 2fr;
+  grid-template-columns: 1fr, 1fr;
   grid-template-rows: 1fr, 1fr;
 }
 .albumList {
   width: 50vw;
   grid-column: 1 / 2;
   grid-row: 2 / 3;
-  border-right: 2px solid #BABABA;
+  border-right: 2px solid #bababa;
 }
 .albumDetails {
   grid-column: 2 / 3;
   grid-row: 2 / 3;
   width: 49vw;
-  
+
+  .photoDetails {
+    grid-column: 3 / 4;
+    grid-row: 1 / 2;
+    width: 49vw;
+  }
+.photoDetail{
+  margin: 5px;
+  border-radius: 7px;
 }
-.photoDetails {
-  grid-column: 3 / 4;
-  grid-row: 1 / 2;
-  width: 49vw;
- 
 }
 </style>
