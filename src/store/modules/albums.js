@@ -25,7 +25,7 @@ const mutations = {
   },
   [types.ALBUM_LIST_SUCCESS](state, albumList) {
     state.albumList = albumList;
-    state.albumListLoading = false;
+    state.albumListLoading = true;
   },
   [types.ALBUM_REQUEST](state,photoUrl ) {
     state.albumLoading = true;
@@ -33,24 +33,26 @@ const mutations = {
   },
   [types.ALBUM_SUCCESS](state, albumDetails) {
     state.albumDetails = albumDetails;
-    state.albumLoading = false;
+    state.albumLoading = true;
   },
   [types.SELECT_ALBUM](state, albumId) {
     state.albumId = albumId;
   },
   [types.SELECT_PHOTO](state, photoId) {
+    let photoKey = 0;
+    for (let i = 1; i < state.albumDetails.length; i++) {
+      if (state.albumDetails[i].id === photoId) {
+        photoKey = i;
+      }
+    }
+    state.photoUrl = state.albumDetails[photoKey].url;
     // let photoKey = 0;
     // for (let i = 1; i < state.albumDetails.length; i++) {
     //   if (state.albumDetails[i].id === photoId) {
     //     photoKey = i;
     //   }
     // }
-    // for (let i = 0; i < state.albumDetails.length; i++) {
-    //   if (state.albumDetails[i].id === photoId) {
-    //     photoKey = i;
-    //   }
-    // }
-    state.photoUrl = state.albumDetails[photoId].url;
+    // state.photoUrl = state.albumDetails[photoId].url;
   },
 };
 
