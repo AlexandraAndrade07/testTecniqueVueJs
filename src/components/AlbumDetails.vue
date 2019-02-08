@@ -1,6 +1,5 @@
   <template>
     <div class="containerPhoto">
-      
         <div class="thumbPhoto" v-for="albumd in albumDetails" :key="albumd.id">
           <img class="thumbPhoto" width="250" @click="selectPhoto(albumd.id)" v-bind:src="albumd.thumbnailUrl">
         </div>
